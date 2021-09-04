@@ -4,7 +4,7 @@
 # If run out of GPU memory, increase "--batch-split" argument.
 
 # get the data
-bash get_data.sh
+# bash get_data.sh
 mkdir -p checkpoints
 
 ngpus=8

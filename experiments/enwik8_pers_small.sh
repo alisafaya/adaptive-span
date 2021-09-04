@@ -4,10 +4,8 @@
 # If run out of GPU memory, increase "--batch-split" argument.
 
 # get the data
-bash get_data.sh
-mkdir -p checkpoints
 
-ngpus=8
+ngpus=1
 args="
 --data data/enwik8 \
 --nlayers 18 \

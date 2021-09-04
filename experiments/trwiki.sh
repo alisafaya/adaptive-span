@@ -1,40 +1,40 @@
 #!/usr/bin/env bash
 
-# get the data
-# bash get_data.sh
-mkdir -p checkpoints
-
 args="
---data data/enwik8 \
+--data data/wikitext-103 \
 --nlayers 12 \
---hid-sz 512 \
---inner-hid-sz 2048 \
+--hid-sz 768 \
+--inner-hid-sz 3072 \
 --nheads 8 \
---attn-span 8192 \
---block-sz 512 \
+--attn-span 2048 \
+--block-sz 256 \
 --batch-sz 16 \
 --lr 0.00025 \
---lr-warmup 2000 \
 --momentum 0 \
 --dropout 0.3 \
---optim adam \
+--emb-dropout 0.1 \
+--lr-warmup 32000 \
 --grad-clip 1 \
 --niter 200 \
 --nbatches 1000 \
+--optim adam \
 --adapt-span \
 --adapt-span-loss 0.0000005 \
+--data-unit ppl \
 --adapt-span-cache \
---checkpoint checkpoints/enwik8.pt
+--adapt-io \
+--adapt-io-tied \
+--checkpoint checkpoints/wikitext-103.pt
 "
 
 echo "Training ..."
 # using the pytorch distributed launching
-# python3 main.py $args
+python3 main.py $args
 
 echo "Fine-tuning ..."
 # train another 20k steps with a 10x smaller learning rate
 python3 main.py $args \
-  --lr 0.00005 --niter 450
+  --lr 0.000025 --niter 400
 
 echo "Evaluation ..."
 # use a smaller batch size to reduce tokens without context and omitted tokens.

@@ -11,6 +11,7 @@ import math
 import random
 
 import torch
+from tqdm import trange
 
 
 
@@ -97,7 +98,7 @@ def train_iteration(model, optimizer, scheduler, data, nb_batches_per_iter,
 
     loss_all = 0
     actual_nb_batches_per_iter = 0
-    for _ in range(nb_batches_per_iter_max):
+    for _ in trange(nb_batches_per_iter_max, desc="training iteration"):
         actual_nb_batches_per_iter += 1
         X = data[:, train_pos: train_pos + block_size].contiguous()
         Y = data[:, train_pos + 1: train_pos + block_size + 1].contiguous()

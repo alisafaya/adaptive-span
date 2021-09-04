@@ -19,9 +19,13 @@ class Dictionary(object):
 
         assert os.path.exists(path)
         # Add words to the dictionary
+        add_eos = "enwik" in path
         with open(path, 'r', encoding="utf8") as f:
             for line in f:
-                words = line.split() + ['<eos>']
+                words = line.split()
+                if add_eos:
+                    words.append('<eos>')
+
                 for word in words:
                     if sort_dict:
                         self.word2count[word] = self.word2count.get(word, 0) + 1
@@ -47,9 +51,15 @@ def _tokenize(text_path, dictionary):
 
     # Assign to each token its identifier
     ids = []
+    add_eos = "enwik" in text_path
+
     with open(text_path, 'r', encoding="utf8") as f:
         for line in f:
-            tokens = line.split() + ['<eos>']
+            tokens = line.split()
+
+            if add_eos: 
+                tokens.append('<eos>')
+
             for token in tokens:
                 ids.append(dictionary[token])
     ids = torch.LongTensor(ids)

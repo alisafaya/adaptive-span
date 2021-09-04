@@ -192,7 +192,7 @@ PARAMS_CONFIG = {
         },
         '--adapt-io-cutoffs': {
             'type': int,
-            'default': [20000, 40000, 200000],
+            'default': [2 ** 12, 2 ** 14],
             'help': 'cutoffs values',
             'dest': 'adapt_io_cutoffs'
         },
